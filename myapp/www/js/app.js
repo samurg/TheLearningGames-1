@@ -190,6 +190,7 @@ var translationsEN = {
   LOGIN:'Log in',
   SCORE:'Score',
   MAX_SCORE:'Max score',
+  EVALUATE:'Evaluate',
 };
  
 var translationsES= {
@@ -285,6 +286,7 @@ var translationsES= {
   LOGIN:'Entrar',
   SCORE:'Puntuación',
   MAX_SCORE:'Puntuación máxima',
+  EVALUATE:'Evaluar',
 };
 
 var translationsIT= {
@@ -380,4 +382,5 @@ var translationsIT= {
   LOGIN:'Entra',
   SCORE:'Punteggio',
   MAX_SCORE:'Punteggio massimo',
+  EVALUATE:'',
 };
