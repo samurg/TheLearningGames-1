@@ -1058,11 +1058,31 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     for(var i=0;i<checked.length;i++){
       console.log(i+" - "+checked[i]);
     }*/
-    }
-
+  }
     /*Cuando fijo la asistencia hay que comprobar que no la haya fijado ya,
     la fecha para comparar estará en la tabla resultante n:m estudiantes-items
     */
+
+  $scope.createClassroom = function(name) {
+
+    var classroom = {
+      "name" : name,
+      "description" : " ",
+      "teacher" : $scope.teacherId
+    }
+
+    $http.post(Backand.getApiUrl()+'/1/objects/'+'classrooms', classroom)
+      .success(function(response){
+        $scope.getClassrooms();
+      })
+  }
+
+  $scope.deleteClassroom = function() {
+    $http.delete(Backand.getApiUrl()+'/1/objects/'+'classrooms/' + $scope.classroomId)
+      .success(function(response){
+        $scope.getClassrooms()
+      })
+  }
 
                                         /* FUNCTIONS IN TEACHER PROFILE */
 
@@ -1187,27 +1207,6 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
         .success(function(response){
       })
 
-    }
-
-    $scope.createClassroom = function(name) {
-
-      var classroom = {
-        "name" : name,
-        "description" : " ",
-        "teacher" : $scope.teacherId
-      }
-
-      $http.post(Backand.getApiUrl()+'/1/objects/'+'classrooms', classroom)
-        .success(function(response){
-          $scope.getClassrooms();
-        })
-    }
-
-    $scope.deleteClassroom = function() {
-      $http.delete(Backand.getApiUrl()+'/1/objects/'+'classrooms/' + $scope.classroomId)
-        .success(function(response){
-          $scope.getClassrooms()
-        })
     }
 
     $scope.deleteStudent = function() {
