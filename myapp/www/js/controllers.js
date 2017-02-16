@@ -367,17 +367,6 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
       '</ion-content>'+
       '</ion-modal-view>');
 
-  $cookies.put('attendanceModal', '<ion-modal-view hide-nav-bar="true" style="background-color:#387EF5;">'+
-    '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-      '<h3 id="attendance-heading3" class="attendance-hdg3">{{classroomName}}</h3>'+
-      '<ion-list id="attendance-list7" class="list-elements">'+
-        '<ion-checkbox id="attendance-checkbox2" name="checkStudent" ng-checked="true" class="list-student" ng-repeat="student in studentsAttendance" ng-click="checkAttendance(student.hashCode)">{{student.name}}</ion-checkbox>'+
-      '</ion-list>'+
-      '<button id="attendance-button123" ng-click="closeAttendanceModal()" id="attendance-btn123" class="button button-calm  button-block">{{ \'SET_ATTENDANCE_FOR_TODAY\' | translate }}</button>'+
-      '<button class="button button-calm  button-block" ng-click="closeAttendanceModal()">{{ \'CANCEL\' | translate }}</button>'+
-      '</ion-contentw>'+
-      '</ion-modal-view>');
-
   $cookies.put('secondaryMenuModal', '<ion-modal-view hide-nav-bar="true" style="background-color:#387EF5;">'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
       '<h3 style="color:#FFFFFF;text-align:center;">{{ \'ASSIGN_STUDENT_TO_TEAM\' | translate }}</h3>'+
@@ -709,7 +698,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '</select>'+
     '</label>'+
     '<ion-list id="studentToEvaluate" class="list-elements">'+
-      '<ion-checkbox name="checkStudent" ng-checked="false" class="list-student" ng-repeat="student in students" ng-click="">{{student.name}}</ion-checkbox>'+
+      '<ion-checkbox name="checkStudent" ng-checked="false" class="list-student" ng-repeat="student in students" ng-click="addStudentToArray(this.object)">{{student.name}}</ion-checkbox>'+
     '</ion-list>'+
     '<button class="button button-calm" ng-click="closeModalEvaluateStudent()">{{ \'CANCEL\' | translate }}</button>'+
     '<button class="button button-calm" ng-click="setScore(); closeModalEvaluateStudent()">{{ \'SET_ITEM\' | translate }}</button>'+
@@ -1005,6 +994,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
 
   $scope.students = [];
   $scope.items = [];
+  //$scope.studentsToEvaluate = [];
 
   $scope.studentId;
   $scope.studentName;
@@ -1216,6 +1206,12 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
           $scope.items = response.data;
           $cookies.put('items', response.data);
         });
+    }
+
+    $scope.addStudentToArray = function(student){
+      if($scope.studentsToEvaluate.length > 0)
+        $scope.studentToEvaluate = [];
+      $scope.studentsToEvaluate.push(student);
     }
 
     /*$scope.setScore = function(){
