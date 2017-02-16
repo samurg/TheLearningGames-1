@@ -1272,6 +1272,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
           .success(function(response) {
           })
       }
+      $scope.getStudents();
     }
 
     $scope.deleteStudent = function() {

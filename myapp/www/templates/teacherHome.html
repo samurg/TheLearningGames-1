@@ -104,7 +104,6 @@
         <ion-item class="list-student" id="class-list-item7" ng-click="setStudentName(student.name, student.surname, student.hashCode); showModalStudentDialog()" ng-repeat="student in students" ng-if="student.inClass === 1" on-swipe-left="setStudent(student)">
           <h2>{{student.name}} {{student.surname}}</h2>
           <p>{{student.hashCode}}</p>
-          <p>{{student.inClass}}</p>
           <ion-option-button class="button-assertive" ng-click="deleteStudent()">{{ 'DELETE' | translate }}</ion-option-button>
         </ion-item>
       </ion-list>
