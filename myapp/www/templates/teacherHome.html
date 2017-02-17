@@ -31,6 +31,9 @@
         <ion-item id="teacherHome-list-item47" ng-repeat="class in classrooms" on-swipe-left="setClassroomId(class.id)" ng-click="setClassroomName(class.name); setClassroomId(class.id) ; showAttendanceModal(); secondButtonBarForm()">
         <span class="ion-university"></span><br>{{class.name}}
           <ion-option-button class="button-assertive" ng-click="deleteClassroom()">{{ 'DELETE' | translate }}</ion-option-button>
+          <ion-option-button class="button-calm">{{ 'EXPORT' | translate }}</ion-option-button>
+          <ion-option-button class="button-calm">{{ 'IMPORT' | translate }}</ion-option-button>
+          <ion-option-button class="button-calm">{{ 'ARCHIVE' | translate }}</ion-option-button>
         </ion-item>
       </ion-list>
 

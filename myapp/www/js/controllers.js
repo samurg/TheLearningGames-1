@@ -333,6 +333,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
   $cookies.put('attendanceModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
       '<h3 id="attendance-heading3" class="attendance-hdg3">{{classroomName}}</h3>'+
+      '<input class="dateInput" type="text" value="{{date | date:\'dd-MM-yyyy\'}}" readonly />'+
       '<ion-list id="attendance-list7" class="list-elements">'+
         '<ion-checkbox id="attendance-checkbox2" name="checkStudent" class="list-student" ng-repeat="student in students" ng-checked="student.inClass" ng-click="inClass(student)">{{student.name}}</ion-checkbox>'+
       '</ion-list>'+
@@ -609,7 +610,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
   $cookies.put('newItemModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
      '<h3>{{ \'NEW_ITEM\' | translate }}</h3>'+
-      '<form id="itemDataForm" class="list list-student">'+
+      '<form id="itemDataForm" class="list list-student fullScreen">'+
         '<ion-list>'+
           '<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'NAME\' | translate }}</span>'+
@@ -623,19 +624,19 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
             '<span class="input-label">{{ \'REQUIREMENTS\' | translate }}</span>'+
             '<input type="text" placeholder="{item.requirements}" ng-model="requirements">'+
           '</label>'+
+          '<label class="item item-input list-elements">'+
+            '<span class="input-label">{{ \'MAX_SCORE\' | translate }}</span>'+
+            '<input type="text" placeholder="{item.name}" ng-model="maxPoints">'+
+          '</label>'+
           '<span class="input-label">{{ \'SCORE\' | translate }}</span>'+
           '<div class="item range">'+
             '<i class="icon ion-thumbsup"></i>'+
-            '<input type="range" name="volume" min="0" max="5" step="1" default="3" ng-model="scoreRange">&nbsp;{{scoreRange}}'+
+            '<input type="range" name="volume" min="0" max="maxPoints" step="1" default="(maxPoints/2)" ng-model="scoreRange">&nbsp;{{scoreRange}}'+
           '</div>'+
-          /*'<label class="item item-input list-elements">'+
-            '<span class="input-label">{{ \'MAX_SCORE\' | translate }}</span>'+
-            '<input type="text" placeholder="{item.name}">'+
-          '</label>'+*/
         '</ion-list>'+
       '</form>'+
-      '<div class="list-student">'+
-        '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems() ; createItem(name, description, requirements, scoreRange)"">{{ \'ADD_ITEM\' | translate }}</button>'+
+      '<div class="button-bar action_buttons">'+
+        '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems() ; createItem(name, description, requirements, maxPoints, scoreRange)"">{{ \'ADD_ITEM\' | translate }}</button>'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems()">{{ \'CANCEL\' | translate }}</button>'+
       '</div>'+
     '</ion-content>'+
@@ -660,7 +661,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
           '</label>'+
         '</ion-list>'+
       '</form>'+
-      '<div class="list-student">'+
+      '<div class="button-bar action_buttons">'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewAchievement() ; clearFormAchievements()">{{ \'ADD_ACHIEVEMENT\' | translate }}</button>'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewAchievement() ; clearFormAchievements()">{{ \'CANCEL\' | translate }}</button>'+
       '</div>'+
@@ -686,7 +687,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
           '</label>'+
         '</ion-list>'+
       '</form>'+
-      '<div class="list-student">'+
+      '<div class="button-bar action_buttons">'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewBadge() ; clearFormBadges()">{{ \'ADD_BADGE\' | translate }}</button>'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewBadge() ; clearFormBadges()">{{ \'CANCEL\' | translate }}</button>'+
       '</div>'+
@@ -704,9 +705,10 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
     '<ion-list id="studentToEvaluate" class="list-elements">'+
       '<ion-checkbox name="checkStudent" ng-checked="false" class="list-student light" ng-repeat="student in students" ng-click="toEvaluate(student)">{{student.name}}</ion-checkbox>'+
     '</ion-list>'+
+    '<div class="button-bar action_buttons">'+
     '<button class="button button-calm" ng-click="closeModalEvaluateStudent()">{{ \'CANCEL\' | translate }}</button>'+
-    '<button class="button button-calm" ng-click="setScore() ; closeModalEvaluateStudent()">{{ \'SET_ITEM\' | translate }}</button>'+
-     '</ion-content>'+
+    '<button class="button button-calm" ng-click="setScore(); closeModalEvaluateStudent()">{{ \'SET_ITEM\' | translate }}</button>'+
+    '</div></ion-content>'+
     '</ion-modal-view>');
 
   /*
@@ -722,7 +724,8 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
     $scope.classroomName = $cookies.get('classroomName');
     //$scope.getStudentsAttendance();                                         REVISAR AQUI
     $scope.getStudents();
-    $scope.attendanceModal.show();  
+    $scope.attendanceModal.show(); 
+    $scope.date = Date.now(); 
   }
     
   $scope.closeAttendanceModal = function(){
@@ -1070,8 +1073,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
     $cookies.put('studentSurname', surname);
     $cookies.put('studentHashCode', hashCode);
   }
-
-
+  
   $scope.createClassroom = function(name) {
 
     var classroom = {
@@ -1291,12 +1293,13 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
     }
 
                                             /* FUNCTIONS IN ITEMS */
-    $scope.createItem = function(name, description, requirements, scoreRange){
+    $scope.createItem = function(name, description, requirements, maxPoints, scoreRange){
         var item = {
           "name" : name,
           "description" : description,
           "requirements" : requirements,
           "defaultPoints" : scoreRange,
+          "maxPoints" : maxPoints,
           "classroom" : $scope.classroomId
         }
 
@@ -1351,11 +1354,6 @@ function ($scope, $stateParams, $cookies, $http, Backand, $state) {
     $scope.loginTypeStudentBadges=true;
   }
 
-  /*$scope.studentId = $cookies.get('studentId');
-  $scope.studentAvatar = $cookies.get('studentAvatar');
-  $scope.studentName = $cookies.get('studentName');
-  $scope.studentSurname = $cookies.get('studentSurname');*/
-
   $scope.initData = function(){
     $scope.studentAvatar = $cookies.get('studentAvatar');
     $scope.studentName = $cookies.get('studentName');
@@ -1371,12 +1369,34 @@ function ($scope, $stateParams, $cookies, $http, Backand, $state) {
 
       var input6 = document.getElementById ("inputAvatar");
       input6.placeholder = $scope.studentAvatar;
+
+      $scope.getClassroomByHashCode();
+
   }
 
   $scope.clearForm  = function(){
     var form = document.getElementById('studentHome-form1');
     form.reset();
     $state.go('studentHome', {"studentFullName": $scope.studentName + $scope.studentSurname});
+  }
+
+  $scope.getClassroomByHashCode = function() {
+    $http.get(Backand.getApiUrl()+'/1/query/data/getClassroomByHashCode'+'?parameters={ "hashCode" : \"'+$scope.hashCode+'\"}')
+      .success(function (response) {
+        $scope.classroomId = response[0].id;
+        $cookies.put('classroomId', response[0].id);
+
+        $scope.getItems(response[0].id);
+
+      });
+  }
+
+  $scope.getItems = function(classroomId) {
+    $http.get(Backand.getApiUrl()+'/1/query/data/getItems'+'?parameters={ "classroom" : \"'+classroomId+'\"}')
+      .then(function (response) {
+        $scope.items = response;
+        $cookies.put('items', response);
+      });
   }
 
   $scope.editStudent = function(name, surname, avatar) {

@@ -19,6 +19,10 @@
 
 .button-assertive{ background: #a51a1a !important;}
 
+.dateInput{ padding:6px 0; text-align: center; border:0; width: 100%;}
+
+.fullScreen{ width: 100%; }
+
 /*
  * LOGIN SCREEN
  */
@@ -48,6 +52,8 @@
 ion-modal-view h2, h3{ margin: 0 !important; padding: 10px 0; font-size: 1.5em; font-weight: 100; text-align: center;}
 
 .list-student-team { height: auto;}
+
+.list-item-header, .list-item{ width: 30%; }
 
 /*
  * TEACHERS
