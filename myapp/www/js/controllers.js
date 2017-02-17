@@ -332,10 +332,9 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
       '<h3 id="attendance-heading3" class="attendance-hdg3">{{classroomName}}</h3>'+
       '<ion-list id="attendance-list7" class="list-elements">'+
-        '<ion-checkbox id="attendance-checkbox2" name="checkStudent" ng-checked="true" class="list-student" ng-repeat="student in studentsAttendance" ng-click="checkAttendance(student.hashCode)">{{student.name}}</ion-checkbox>'+
+        '<ion-checkbox id="attendance-checkbox2" name="checkStudent" class="list-student" ng-repeat="student in students" ng-checked="student.inClass" ng-click="inClass(student)">{{student.name}}</ion-checkbox>'+
       '</ion-list>'+
-      '<button id="attendance-button123" ng-click="closeAttendanceModal()" id="attendance-btn123" class="button button-calm  button-block">{{ \'SET_ATTENDANCE_FOR_TODAY\' | translate }}</button>'+
-      '<button class="button button-calm  button-block" ng-click="closeAttendanceModal()">{{ \'CANCEL\' | translate }}</button>'+
+      '<button id="attendance-button123" ng-click="editStudentsAttendance(); closeAttendanceModal()" id="attendance-btn123" class="button button-calm  button-block">{{ \'SET_ATTENDANCE_FOR_TODAY\' | translate }}</button>'+
       '</ion-contentw>'+
       '</ion-modal-view>');
 
@@ -1215,6 +1214,15 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
       $scope.studentsToEvaluate.push(student);
     }
 
+    $scope.inClass = function (student) {
+      var pos = $scope.students.indexOf(student);
+      if ($scope.students[pos].inClass === false) {
+        $scope.students[pos].inClass = true;
+      } else {
+        $scope.students[pos].inClass = false;
+      }
+    }
+
     /*$scope.setScore = function(){
       var listStudents = [];
       listStudents = document.getElementById("studentToEvaluate");
@@ -1236,7 +1244,8 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
         "surname" : surname,
         "classroom" : $scope.classroomId,
         "hashCode" : hash,
-        "avatar" : 'https://easyeda.com/assets/static/images/avatar-default.png'
+        "avatar" : 'https://easyeda.com/assets/static/images/avatar-default.png',
+        "inClass" : true
       }
 
       var student = {
@@ -1255,6 +1264,16 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
         .success(function(response){
       })
 
+    }
+
+    $scope.editStudentsAttendance = function() {
+      for (var i = 0; i < $scope.students.length; i++) {
+        var studentId = $scope.students[i].id;
+        $http.put(Backand.getApiUrl()+'/1/objects/'+'teacherStudents/'+studentId, $scope.students[i])
+          .success(function(response) {
+          })
+      }
+      $scope.getStudents();
     }
 
     $scope.deleteStudent = function() {
@@ -1384,7 +1403,7 @@ function ($scope, $stateParams, $cookies, $http, Backand, $state) {
         $cookies.put('studentAvatar', avatar);
         $scope.clearForm();
       })
-    }
+  }
 
 }])
 
