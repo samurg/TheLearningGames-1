@@ -608,7 +608,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
   $cookies.put('newItemModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
      '<h3>{{ \'NEW_ITEM\' | translate }}</h3>'+
-      '<form id="itemDataForm" class="list list-student">'+
+      '<form id="itemDataForm" class="list list-student fullScreen">'+
         '<ion-list>'+
           '<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'NAME\' | translate }}</span>'+
@@ -633,7 +633,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
           '</div>'+
         '</ion-list>'+
       '</form>'+
-      '<div class="list-student">'+
+      '<div class="button-bar action_buttons">'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems() ; createItem(name, description, requirements, maxPoints, scoreRange)"">{{ \'ADD_ITEM\' | translate }}</button>'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems()">{{ \'CANCEL\' | translate }}</button>'+
       '</div>'+
@@ -659,7 +659,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
           '</label>'+
         '</ion-list>'+
       '</form>'+
-      '<div class="list-student">'+
+      '<div class="button-bar action_buttons">'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewAchievement() ; clearFormAchievements()">{{ \'ADD_ACHIEVEMENT\' | translate }}</button>'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewAchievement() ; clearFormAchievements()">{{ \'CANCEL\' | translate }}</button>'+
       '</div>'+
@@ -685,7 +685,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
           '</label>'+
         '</ion-list>'+
       '</form>'+
-      '<div class="list-student">'+
+      '<div class="button-bar action_buttons">'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewBadge() ; clearFormBadges()">{{ \'ADD_BADGE\' | translate }}</button>'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewBadge() ; clearFormBadges()">{{ \'CANCEL\' | translate }}</button>'+
       '</div>'+
@@ -703,9 +703,10 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '<ion-list id="studentToEvaluate" class="list-elements">'+
       '<ion-checkbox name="checkStudent" ng-checked="false" class="list-student" ng-repeat="student in students" ng-click="addStudentToArray(this.object)">{{student.name}}</ion-checkbox>'+
     '</ion-list>'+
+    '<div class="button-bar action_buttons">'+
     '<button class="button button-calm" ng-click="closeModalEvaluateStudent()">{{ \'CANCEL\' | translate }}</button>'+
     '<button class="button button-calm" ng-click="setScore(); closeModalEvaluateStudent()">{{ \'SET_ITEM\' | translate }}</button>'+
-     '</ion-content>'+
+    '</div></ion-content>'+
     '</ion-modal-view>');
 
   /*
