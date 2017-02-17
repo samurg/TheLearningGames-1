@@ -23,6 +23,8 @@
 
 .fullScreen{ width: 100%; }
 
+.puntuacion{ padding-left: 1%; text-transform: uppercase; color: white; font-weight: 400; }
+
 /*
  * LOGIN SCREEN
  */
@@ -70,7 +72,9 @@ ion-modal-view h2, h3{ margin: 0 !important; padding: 10px 0; font-size: 1.5em; 
  * TEACHER PROFILE
  */
  .teacherAvatar{ background: none; border: none; text-align: center;  }
- .teacherAvatar img{ border-radius: 100%; width: 100% !important; }
+ .teacherAvatar img{ border-radius: 100%; width: 40% !important; }
+
+ .inputLabelProfile{ width: 100%; }
 
 /*
 * STUDENT
@@ -84,6 +88,8 @@ ion-modal-view .list-student, ion-modal-view .list-student:hover{ background: no
 
 #studentHome-container28{ width: 48% !important; }
 #studentHome-container28 img{ width: 100%; border-radius: 100%; margin-top:3px;}
+
+#studentHome-form1, #studentHome-form1:hover{ background: none !important; }
 
 /*
 * MISSIONS
