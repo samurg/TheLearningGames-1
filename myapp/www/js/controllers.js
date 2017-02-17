@@ -227,7 +227,6 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
   }
 
   $scope.classForm = function(){
-    $scope.getItems();
     $scope.loginTypeTeacherHome=false;
     $scope.loginTypeTeacherProfile=false;
     $scope.loginTypeTeacherSettings=false;
@@ -324,6 +323,19 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
           $scope.loginTypeAchievements=false;
           $scope.loginTypeBadges=false;
         $scope.loginTypeMissions=true;
+  }
+
+  $scope.loginTypeSelectItem=true;
+  $scope.loginTypeSelectStudent=false;
+
+  $scope.selectItemForm = function() {
+    $scope.loginTypeSelectItem=true;
+    $scope.loginTypeSelectStudent=false;
+  }
+
+  $scope.selectStudentForm = function() {
+    $scope.loginTypeSelectItem=false;
+    $scope.loginTypeSelectStudent=true;
   }
 
   /*
@@ -696,15 +708,18 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
 
   $cookies.put('studentsEvaluateModal', '<ion-modal-view hide-nav-bar="true" id="page11">'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-    '<label class="item item-select">'+
-    '<span class="input-label">{{ \'SELECT_ITEM\' | translate }}</span>'+
-    '<select id="selectItem">'+
-      '<option ng-repeat="item in items">{{item.name}}&nbsp;({{item.defaultPoints}}&nbsp;{{ \'POINTS\' | translate }})</option>'+
-    '</select>'+
-    '</label>'+
-    '<ion-list id="studentToEvaluate" class="list-elements">'+
-      '<ion-checkbox name="checkStudent" ng-checked="false" class="list-student light" ng-repeat="student in students" ng-click="toEvaluate(student)">{{student.name}}</ion-checkbox>'+
-    '</ion-list>'+
+    '<div ng-show="loginTypeSelectItem">'+
+      '<ion-list id="evaluate-list1" class="list-elements">'+
+        '<ion-item class="list-student-dialog" ng-repeat="item in items" ng-click="setItemSelected(item); selectStudentForm()">'+
+          '{{item.name}}&nbsp;{{item.defaultPoints}}'+
+        '</ion-item>'+
+      '</ion-list>'+
+    '</div>'+
+    '<div ng-show="loginTypeSelectStudent">'+
+      '<ion-list id="attendance-list7" class="list-elements">'+
+        '<ion-checkbox id="attendance-checkbox2" name="checkStudent" class="list-student" ng-repeat="student in students" ng-checked="true" ng-click="toEvaluate()">{{student.name}}</ion-checkbox>'+
+      '</ion-list>'+
+    '</div>'+
     '<div class="button-bar action_buttons">'+
     '<button class="button button-calm" ng-click="closeModalEvaluateStudent()">{{ \'CANCEL\' | translate }}</button>'+
     '<button class="button button-calm" ng-click="setScore(); closeModalEvaluateStudent()">{{ \'SET_ITEM\' | translate }}</button>'+
@@ -1309,6 +1324,10 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
           $scope.getItems();
           $scope.clearForm();
         })
+    }
+
+    $scope.setItemSelected = function(item) {
+      $scope.selectedItem = item;
     }
 
 }])
