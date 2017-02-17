@@ -1358,11 +1358,6 @@ function ($scope, $stateParams, $cookies, $http, Backand, $state) {
     $scope.loginTypeStudentBadges=true;
   }
 
-  /*$scope.studentId = $cookies.get('studentId');
-  $scope.studentAvatar = $cookies.get('studentAvatar');
-  $scope.studentName = $cookies.get('studentName');
-  $scope.studentSurname = $cookies.get('studentSurname');*/
-
   $scope.initData = function(){
     $scope.studentAvatar = $cookies.get('studentAvatar');
     $scope.studentName = $cookies.get('studentName');
@@ -1378,12 +1373,35 @@ function ($scope, $stateParams, $cookies, $http, Backand, $state) {
 
       var input6 = document.getElementById ("inputAvatar");
       input6.placeholder = $scope.studentAvatar;
+
+      $scope.getClassroomByHashCode();
+
   }
 
   $scope.clearForm  = function(){
     var form = document.getElementById('studentHome-form1');
     form.reset();
     $state.go('studentHome', {"studentFullName": $scope.studentName + $scope.studentSurname});
+  }
+
+  $scope.getClassroomByHashCode = function() {
+    $http.get(Backand.getApiUrl()+'/1/query/data/getClassroomByHashCode'+'?parameters={ "hashCode" : \"'+$scope.hashCode+'\"}')
+      .success(function (response) {
+        console.log(response[0].id);
+        $scope.classroomId = response[0].id;
+        $cookies.put('classroomId', response[0].id);
+
+        $scope.getItems(response[0].id);
+
+      });
+  }
+
+  $scope.getItems = function(classroomId) {
+    $http.get(Backand.getApiUrl()+'/1/query/data/getItems'+'?parameters={ "classroom" : \"'+classroomId+'\"}')
+      .then(function (response) {
+        $scope.items = response;
+        $cookies.put('items', response);
+      });
   }
 
   $scope.editStudent = function(name, surname, avatar) {
