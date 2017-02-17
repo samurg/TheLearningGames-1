@@ -14,7 +14,7 @@ myApp.config(function (BackandProvider) {
       BackandProvider.setAnonymousToken('8c25f926-034e-49f8-b84f-db5ff66a24ba');
   })
 
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'thelearninggames', 'ngCookies','pascalprecht.translate','ui.router', 'ngTable'])
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'thelearninggames', 'ngCookies','pascalprecht.translate','ui.router'])
 
 .config(function($ionicConfigProvider, $sceDelegateProvider, $translateProvider){
   
@@ -194,6 +194,7 @@ var translationsEN = {
   SET_ITEM: 'Set score',
   POINTS: 'Points',
   SELECT_ITEM: 'Select an item',
+  DEFAULT_POINTS: 'Default points',
 };
  
 var translationsES= {
@@ -293,6 +294,7 @@ var translationsES= {
   SET_ITEM: 'Puntuar',
   POINTS: 'Puntos',
   SELECT_ITEM: 'Selecciona un item',
+  DEFAULT_POINTS: 'Puntos por defecto',
 };
 
 var translationsIT= {
@@ -392,4 +394,5 @@ var translationsIT= {
   SET_ITEM: 'Imposta oggetto',
   POINTS: 'Punti',
   SELECT_ITEM: 'Seleziona oggetto',
+  DEFAULT_POINTS: ' ',
 };

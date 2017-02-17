@@ -31,9 +31,6 @@
         <ion-item id="teacherHome-list-item47" ng-repeat="class in classrooms" on-swipe-left="setClassroomId(class.id)" ng-click="setClassroomName(class.name); setClassroomId(class.id) ; showAttendanceModal(); secondButtonBarForm()">
         <span class="ion-university"></span><br>{{class.name}}
           <ion-option-button class="button-assertive" ng-click="deleteClassroom()">{{ 'DELETE' | translate }}</ion-option-button>
-          <ion-option-button class="button-calm">{{ 'EXPORT' | translate }}</ion-option-button>
-          <ion-option-button class="button-calm">{{ 'IMPORT' | translate }}</ion-option-button>
-          <ion-option-button class="button-calm">{{ 'ARCHIVE' | translate }}</ion-option-button>
         </ion-item>
       </ion-list>
 
@@ -115,7 +112,7 @@
     <div ng-show="loginTypeClass">
       <h3 id="class-heading2">{{classroomName}}</h3>
       <ion-list id="class-list5" class="list-elements">
-        <ion-item class="list-student" id="class-list-item7" ng-click="setStudentName(student.name, student.surname, student.hashCode); showModalStudentDialog()" ng-repeat="student in students" ng-if="student.inClass === 1" on-swipe-left="setStudent(student)">
+        <ion-item class="list-student" id="class-list-item7" ng-click="setStudentName(student.name, student.surname, student.hashCode); showModalStudentDialog(student)" ng-repeat="student in students" ng-if="student.inClass === 1" on-swipe-left="setStudent(student)">
           <h2>{{student.name}} {{student.surname}}</h2>
           <p>{{student.hashCode}}</p>
           <ion-option-button class="button-assertive" ng-click="deleteStudent()">{{ 'DELETE' | translate }}</ion-option-button>
