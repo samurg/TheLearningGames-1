@@ -191,6 +191,9 @@ var translationsEN = {
   SCORE:'Score',
   MAX_SCORE:'Max score',
   EVALUATE:'Evaluate',
+  SET_ITEM: 'Set score',
+  POINTS: 'Points',
+  SELECT_ITEM: 'Select an item',
 };
  
 var translationsES= {
@@ -287,6 +290,9 @@ var translationsES= {
   SCORE:'Puntuación',
   MAX_SCORE:'Puntuación máxima',
   EVALUATE:'Evaluar',
+  SET_ITEM: 'Puntuar',
+  POINTS: 'Puntos',
+  SELECT_ITEM: 'Selecciona un item',
 };
 
 var translationsIT= {
@@ -382,5 +388,8 @@ var translationsIT= {
   LOGIN:'Entra',
   SCORE:'Punteggio',
   MAX_SCORE:'Punteggio massimo',
-  EVALUATE:'',
+  EVALUATE:'Valuta',
+  SET_ITEM: 'Imposta oggetto',
+  POINTS: 'Punti',
+  SELECT_ITEM: 'Seleziona oggetto',
 };

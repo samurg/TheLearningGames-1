@@ -332,11 +332,10 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
       '<h3 id="attendance-heading3" class="attendance-hdg3">{{classroomName}}</h3>'+
       '<ion-list id="attendance-list7" class="list-elements">'+
-        '<ion-checkbox id="attendance-checkbox2" name="checkStudent" ng-checked="true" class="list-student" ng-repeat="student in studentsAttendance" ng-click="checkAttendance(student.hashCode)">{{student.name}}</ion-checkbox>'+
+        '<ion-checkbox id="attendance-checkbox2" name="checkStudent" class="list-student" ng-repeat="student in students" ng-checked="student.inClass" ng-click="inClass(student)">{{student.name}}</ion-checkbox>'+
       '</ion-list>'+
       '<div class="button-bar action_buttons">'+
-      '<button id="attendance-button123" ng-click="closeAttendanceModal()" id="attendance-btn123" class="button button-calm  button-block">{{ \'SET_ATTENDANCE_FOR_TODAY\' | translate }}</button>'+
-      '<button class="button button-calm  button-block" ng-click="closeAttendanceModal()">{{ \'CANCEL\' | translate }}</button>'+
+        '<button id="attendance-button123" ng-click="editStudentsAttendance(); closeAttendanceModal()" id="attendance-btn123" class="button button-calm  button-block">{{ \'SET_ATTENDANCE_FOR_TODAY\' | translate }}</button>'+
       '</div>'+
       '</ion-contentw>'+
       '</ion-modal-view>');
@@ -369,19 +368,6 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
       '</ion-content>'+
       '</ion-modal-view>');
 
-  $cookies.put('attendanceModal', '<ion-modal-view hide-nav-bar="true" >'+
-    '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-      '<h3 id="attendance-heading3" class="attendance-hdg3">{{classroomName}}</h3>'+
-      '<ion-list id="attendance-list7" class="list-elements">'+
-        '<ion-checkbox id="attendance-checkbox2" name="checkStudent" ng-checked="true" class="list-student" ng-repeat="student in studentsAttendance" ng-click="checkAttendance(student.hashCode)">{{student.name}}</ion-checkbox>'+
-      '</ion-list>'+
-      '<div class="button-bar action_buttons">'+
-      '<button id="attendance-button123" ng-click="closeAttendanceModal()" id="attendance-btn123" class="button button-calm  button-block">{{ \'SET_ATTENDANCE_FOR_TODAY\' | translate }}</button>'+
-      '<button class="button button-calm  button-block" ng-click="closeAttendanceModal()">{{ \'CANCEL\' | translate }}</button>'+
-      '</div>'+
-      '</ion-contentw>'+
-      '</ion-modal-view>');
-
   $cookies.put('secondaryMenuModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
       '<h3>{{ \'ASSIGN_STUDENT_TO_TEAM\' | translate }}</h3>'+
@@ -397,7 +383,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
           '<span class="input-label">{{ \'SELECT\' | translate }}</span>'+
           '<select id="selectCopy">'+
               '<option>{{ \'NONE\' | translate }}</option>'+
-              '<option>{classroom.name}</option>'+
+              '<option ng-repat="class in classrooms">{{classroom.name}}</option>'+
           '</select>'+
         '</label>'+
       '</form>'+
@@ -625,28 +611,29 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
         '<ion-list>'+
           '<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'NAME\' | translate }}</span>'+
-            '<input type="text" placeholder="{item.name}">'+
+            '<input type="text" placeholder="{item.name}" ng-model="name">'+
           '</label>'+
           '<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'DESCRIPTION\' | translate }}</span>'+
-            '<input type="text" placeholder="{item.description}">'+
+            '<input type="text" placeholder="{item.description}" ng-model="description">'+
           '</label>'+
           '<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'REQUIREMENTS\' | translate }}</span>'+
-            '<input type="text" placeholder="{item.requirements}">'+
+            '<input type="text" placeholder="{item.requirements}" ng-model="requirements">'+
           '</label>'+
-          '<label class="item item-input list-elements">'+
-            '<span class="input-label">{{ \'SCORE\' | translate }}</span>'+
-            '<input type="text" placeholder="{item.name}">'+
-          '</label>'+
-          '<label class="item item-input list-elements">'+
+          '<span class="input-label">{{ \'SCORE\' | translate }}</span>'+
+          '<div class="item range">'+
+            '<i class="icon ion-thumbsup"></i>'+
+            '<input type="range" name="volume" min="0" max="5" step="1" default="3" ng-model="scoreRange">&nbsp;{{scoreRange}}'+
+          '</div>'+
+          /*'<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'MAX_SCORE\' | translate }}</span>'+
             '<input type="text" placeholder="{item.name}">'+
-          '</label>'+
+          '</label>'+*/
         '</ion-list>'+
       '</form>'+
       '<div class="list-student">'+
-        '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems()">{{ \'ADD_ITEM\' | translate }}</button>'+
+        '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems() ; createItem(name, description, requirements, scoreRange)"">{{ \'ADD_ITEM\' | translate }}</button>'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems()">{{ \'CANCEL\' | translate }}</button>'+
       '</div>'+
     '</ion-content>'+
@@ -703,6 +690,22 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
       '</div>'+
     '</ion-content>'+
   '</ion-modal-view>');
+
+  $cookies.put('studentsEvaluateModal', '<ion-modal-view hide-nav-bar="true" id="page11">'+
+    '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
+    '<label class="item item-select">'+
+    '<span class="input-label">{{ \'SELECT_ITEM\' | translate }}</span>'+
+    '<select id="selectItem">'+
+      '<option ng-repeat="item in items">{{item.name}}&nbsp;({{item.defaultPoints}}&nbsp;{{ \'POINTS\' | translate }})</option>'+
+    '</select>'+
+    '</label>'+
+    '<ion-list id="studentToEvaluate" class="list-elements">'+
+      '<ion-checkbox name="checkStudent" ng-checked="false" class="list-student" ng-repeat="student in students" ng-click="addStudentToArray(this.object)">{{student.name}}</ion-checkbox>'+
+    '</ion-list>'+
+    '<button class="button button-calm" ng-click="closeModalEvaluateStudent()">{{ \'CANCEL\' | translate }}</button>'+
+    '<button class="button button-calm" ng-click="setScore(); closeModalEvaluateStudent()">{{ \'SET_ITEM\' | translate }}</button>'+
+     '</ion-content>'+
+    '</ion-modal-view>');
 
   /*
     *************************************EVERY MODAL FUNCTION GOES HERE*******************************
@@ -914,6 +917,20 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     $scope.newBadgeModal.hide();
   }
 
+                                       /* STUDENTS EVALUATE MODAL */
+  $scope.studentsEvaluateModal = $ionicModal.fromTemplate($cookies.get('studentsEvaluateModal'), {
+    scope: $scope,
+    animation: 'slide-in-up'
+  });
+
+  $scope.showModalEvaluateStudent = function(){
+      $scope.studentsEvaluateModal.show();  
+  }
+    
+  $scope.closeModalEvaluateStudent = function(){
+      $scope.studentsEvaluateModal.hide();
+  }
+
   /*
     *************************************CLEAN FORM FUNCTIONS GOES HERE*******************************
   */
@@ -978,6 +995,8 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
   var modalFirst;
 
   $scope.students = [];
+  $scope.items = [];
+  //$scope.studentsToEvaluate = [];
 
   $scope.studentId;
   $scope.studentName;
@@ -1183,6 +1202,41 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
 
                                         /* FUNCTIONS IN CLASS */
 
+    $scope.getItems = function() {
+      $http.get(Backand.getApiUrl()+'/1/query/data/getItems'+'?parameters={ "classroom" : \"'+$scope.classroomId+'\"}')
+        .then(function (response) {
+          $scope.items = response.data;
+          $cookies.put('items', response.data);
+        });
+    }
+
+    $scope.addStudentToArray = function(student){
+      if($scope.studentsToEvaluate.length > 0)
+        $scope.studentToEvaluate = [];
+      $scope.studentsToEvaluate.push(student);
+    }
+
+    $scope.inClass = function (student) {
+      var pos = $scope.students.indexOf(student);
+      if ($scope.students[pos].inClass === false) {
+        $scope.students[pos].inClass = true;
+      } else {
+        $scope.students[pos].inClass = false;
+      }
+    }
+
+    /*$scope.setScore = function(){
+      var listStudents = [];
+      listStudents = document.getElementById("studentToEvaluate");
+      var listStudentsChecked = [];
+
+      for (var i=0; i<listStudents.length; i++) {
+        if (listStudents[i].checked) {
+          listStudentsChecked.push(checkboxes[i]);
+        }
+      }
+    }*/
+
     $scope.createStudent = function(name, surname) {
       var a = CryptoJS.SHA1($scope.studentName + $scope.classroomId + Date.now().toString()).toString();
       var hash = a.substr(0, 10).toUpperCase();
@@ -1192,7 +1246,8 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
         "surname" : surname,
         "classroom" : $scope.classroomId,
         "hashCode" : hash,
-        "avatar" : 'https://easyeda.com/assets/static/images/avatar-default.png'
+        "avatar" : 'https://easyeda.com/assets/static/images/avatar-default.png',
+        "inClass" : true
       }
 
       var student = {
@@ -1212,7 +1267,17 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
       })
 
     }
-
+    
+    $scope.editStudentsAttendance = function() {
+      for (var i = 0; i < $scope.students.length; i++) {
+        var studentId = $scope.students[i].id;
+        $http.put(Backand.getApiUrl()+'/1/objects/'+'teacherStudents/'+studentId, $scope.students[i])
+          .success(function(response) {
+          })
+      }
+      $scope.getStudents();
+    }
+    
     $scope.deleteStudent = function() {
       $http.delete(Backand.getApiUrl()+'/1/objects/'+'teacherStudents/'+$scope.studentId)
         .success(function(response){
@@ -1228,6 +1293,23 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
             
             })
         });
+    }
+
+                                            /* FUNCTIONS IN ITEMS */
+    $scope.createItem = function(name, description, requirements, scoreRange){
+        var item = {
+          "name" : name,
+          "description" : description,
+          "requirements" : requirements,
+          "defaultPoints" : scoreRange,
+          "classroom" : $scope.classroomId
+        }
+
+        $http.post(Backand.getApiUrl()+'/1/objects/'+'items/', item)
+        .success(function(response){
+          $scope.getItems();
+          $scope.clearForm();
+        })
     }
 
 }])
@@ -1323,7 +1405,7 @@ function ($scope, $stateParams, $cookies, $http, Backand, $state) {
         $cookies.put('studentAvatar', avatar);
         $scope.clearForm();
       })
-    }
+  }
 
 }])
 

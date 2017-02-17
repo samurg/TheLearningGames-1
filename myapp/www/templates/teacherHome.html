@@ -115,7 +115,7 @@
     <div ng-show="loginTypeClass">
       <h3 id="class-heading2">{{classroomName}}</h3>
       <ion-list id="class-list5" class="list-elements">
-        <ion-item class="list-student" id="class-list-item7" ng-click="setStudentName(student.name, student.surname, student.hashCode); showModalStudentDialog()" ng-repeat="student in students" on-swipe-left="setStudent(student)">
+        <ion-item class="list-student" id="class-list-item7" ng-click="setStudentName(student.name, student.surname, student.hashCode); showModalStudentDialog()" ng-repeat="student in students" ng-if="student.inClass === 1" on-swipe-left="setStudent(student)">
           <h2>{{student.name}} {{student.surname}}</h2>
           <p>{{student.hashCode}}</p>
           <ion-option-button class="button-assertive" ng-click="deleteStudent()">{{ 'DELETE' | translate }}</ion-option-button>
@@ -163,15 +163,16 @@
       <!-- Items Page -->
 
       <div ng-show="loginTypeItems">
-        <h3 id="items-heading12" class="items-hdg12">{classroom.name}</h3>    <ion-list id="items-list8" class="list-elements align-text-center">
+        <h3 id="items-heading12" class="items-hdg12">{classroom.name}</h3>
+        <ion-list id="items-list8" class="list-elements align-text-center">
           <ion-item class="light  list-item-header" id="items-list-item11">{{ 'ITEM_NAME' | translate }}</ion-item>
           <ion-item class="light  list-item-header" id="items-list-item12">{{ 'ITEM_DESCRIPTION' | translate }}</ion-item>
           <ion-item class="light  list-item-header" id="items-list-item13">{{ 'REQUIREMENTS' | translate }}</ion-item>
         </ion-list>
         <ion-list id="items-list9" class="list-elements align-text-center">
-          <ion-item id="items-list-item15" class="list-item">???</ion-item>
-          <ion-item id="items-list-item23" class="list-item">???</ion-item>
-          <ion-item id="items-list-item24" class="list-item">???</ion-item>
+          <ion-item id="items-list-item15" class="list-item" ng-repeat="item in items">{{item.name}}</ion-item>
+          <ion-item id="items-list-item23" class="list-item" ng-repeat="item in items">{{item.description}}</ion-item>
+          <ion-item id="items-list-item24" class="list-item" ng-repeat="item in items">{{item.requirements}}</ion-item>
         </ion-list>
 
         <div class="button-bar action_buttons">
