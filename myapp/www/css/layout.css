@@ -15,6 +15,12 @@
 
 .alumnoAvatar{ border-radius: 100%; width: 80%; margin: 5% 0 0 10%; }
 
+.item-options{ background: #c4c4c4; }
+
+.button-assertive{ background: #a51a1a !important;}
+
+.dateInput{ padding:6px 0; text-align: center; border:0; width: 100%;}
+
 /*
  * LOGIN SCREEN
  */
@@ -30,7 +36,7 @@
 .button.button-light{ 
 	border-radius: 0 !important; margin: 0 !important;
 }
-.button-bar a, .button-bar button{ font-size: 1.6em !important; font-weight: 100;}
+.button-bar a, .button-bar button{ font-size: 1.3em !important; font-weight: 100;}
 
 /* 
  * LISTS
@@ -42,6 +48,8 @@
 .list-team, .list-team:hover { background: none !important; margin-top: 15px; float: right;}
 
 ion-modal-view h2, h3{ margin: 0 !important; padding: 10px 0; font-size: 1.5em; font-weight: 100; text-align: center;}
+
+.list-student-team { height: auto;}
 
 /*
  * TEACHERS
@@ -57,15 +65,18 @@ ion-modal-view h2, h3{ margin: 0 !important; padding: 10px 0; font-size: 1.5em; 
 /*
  * TEACHER PROFILE
  */
- .teacherAvatar{ background: none; border: none; text-align: center; }
- .teacherAvatar img{ border-radius: 100%; }
+ .teacherAvatar{ background: none; border: none; text-align: center;  }
+ .teacherAvatar img{ border-radius: 100%; width: 100% !important; }
 
 /*
 * STUDENT
 */
-.list-student{ background: none !important; float:left; margin-top: 20px;}
-.list-student+.list-student{ float:right; }
-.list-student:hover{ background: none; }
+.list-student{ float:left; margin-top: 20px;}
+.list-student+.list-student{}
+.list-student:hover{ }
+
+ion-modal-view .list-student, ion-modal-view .list-student:hover{ background: none; }
+#attendance-list7 .list-student, #attendance-list7 .list-student:hover{ background: white; }
 
 #studentHome-container28{ width: 48% !important; }
 #studentHome-container28 img{ width: 100%; border-radius: 100%; margin-top:3px;}
@@ -73,7 +84,7 @@ ion-modal-view h2, h3{ margin: 0 !important; padding: 10px 0; font-size: 1.5em; 
 /*
 * MISSIONS
 */
-.list-mission{ width: 47.5%; margin: 1% !important;}
+.list-mission{ width: 48%; margin: 1% !important; float: left;}
 .list-mission-header{ width: 100%; margin: 0; }
 
 /*
