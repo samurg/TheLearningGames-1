@@ -388,8 +388,8 @@ var translationsIT= {
   LOGIN:'Entra',
   SCORE:'Punteggio',
   MAX_SCORE:'Punteggio massimo',
-  EVALUATE:'',
-  SET_ITEM: '',
-  POINTS: '',
-  SELECT_ITEM: '',
+  EVALUATE:'Valuta',
+  SET_ITEM: 'Imposta oggetto',
+  POINTS: 'Punti',
+  SELECT_ITEM: 'Seleziona oggetto',
 };
