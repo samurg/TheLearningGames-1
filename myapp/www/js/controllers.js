@@ -148,7 +148,7 @@ function ($scope, $stateParams, $cookies, $http, Backand, $state) {
 
 
 
-.controller('teacherHomeCtrl', ['$scope', '$stateParams', '$ionicModal', '$http', 'Backand', '$cookies', '$state', 'NgTableParams',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('teacherHomeCtrl', ['$scope', '$stateParams', '$ionicModal', '$http', 'Backand', '$cookies', '$state',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, NgTableParams) {
@@ -424,7 +424,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
       '</div>'+
       '<div class="list-student list-elements">'+
         '<ion-list>'+
-          '<ion-item class="list-student-dialog">'+
+          '<ion-item class="list-student-dialog" ng-repeat="item in itemsStudent">'+
             '<i class="icon ion-clipboard"></i>&nbsp;&nbsp;{{ \'ATTENDANCE\' | translate }}'+
             '<span class="item-note">{??}%</span>'+
             '<ion-option-button class="button-assertive">'+
@@ -433,34 +433,6 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
             '<ion-option-button class="button-calm">'+
               '<i class="icon ion-plus-round"></i>'+
             '</ion-option-button>'+
-          '</ion-item>'+
-          '<ion-item class="list-student-dialog">'+
-            '<i class="icon ion-help"></i>&nbsp;&nbsp;??????:'+
-            '<ion-option-button class="button-assertive">'+
-              '<i class="icon ion-minus-round"></i>'+
-            '</ion-option-button>'+
-            '<ion-option-button class="button-calm">'+
-              '<i class="icon ion-plus-round"></i>'+
-            '</ion-option-button>'+
-          '</ion-item>'+
-          '<ion-item class="list-student-dialog">'+
-            '<i class="icon ion-help"></i>&nbsp;&nbsp;??????:'+
-            '<ion-option-button class="button-assertive">'+
-              '<i class="icon ion-minus-round"></i>'+
-            '</ion-option-button>'+
-            '<ion-option-button class="button-calm">'+
-              '<i class="icon ion-plus-round"></i>'+
-            '</ion-option-button>'+
-          '</ion-item>'+
-          '<ion-item class="list-student-dialog">'+
-            '<i class="icon ion-help"></i>&nbsp;&nbsp;??????:'+
-            '<ion-option-button class="button-assertive">'+
-              '<i class="icon ion-minus-round"></i>'+
-            '</ion-option-button>'+
-            '<ion-option-button class="button-calm">'+
-              '<i class="icon ion-plus-round"></i>'+
-            '</ion-option-button>'+
-          '</ion-item>'+
         '</ion-list>'+
         '<button ng-click="showModalSecondary()" class="button button-positive  button-block icon ion-android-more-horizontal"></button>'+
       '</div>'+
@@ -795,7 +767,8 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
     animation: 'slide-in-up'
   });
  
-  $scope.showModalStudentDialog = function(){
+  $scope.showModalStudentDialog = function(student){
+    $scope.studentProfileId = student.id;
     $scope.studentDialogModal.show();  
   }
     
@@ -1023,13 +996,13 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
   //Item that the teacher select when he is going to evaluate
   $scope.selectedItem;
 
+  $scope.itemsStudent =[];
+
+  //For the student selected, used as a parameter in a query for hir items
+  $scope.studentProfileId;
+
   $scope.studentId;
   $scope.studentName;
-
-  //for the table of items
-  var self = this;
-
-  self.tableParams = new NgTableParams({}, {dataset: $scope.items});
 
   /*
     *************************************EVERY FUNCTIONALITY FUNCTION GOES HERE***********************
@@ -1213,6 +1186,13 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
         });
     }
 
+    $scope.getItemsStudent = function(){
+      $http.get(Backand.getApiUrl()+'/1/query/data/getStudentItems'+'?parameters={ "classroom" : \"'+$scope.studentProfileId+'\"}')
+          .then(function (response) {
+            $scope.itemsStudent = response.data;
+          });
+    }
+
     $scope.addStudentToArray = function(student){
       if($scope.studentsToEvaluate.length > 0)
         $scope.studentToEvaluate = [];
@@ -1238,15 +1218,25 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
     }
 
     $scope.setScore = function(){
-      var select = document.getElementById("selectItem");
-      var selectedItem = select.options[select.selectedIndex].value;
-      for (var i = 0; i < $scope.students.length; i++) {
-        var studentId = $scope.students[i].id;
-        $http.put(Backand.getApiUrl()+'/1/objects/'+'teacherStudents/'+studentId, $scope.students[i])
+
+      for (var i = 0; i < $scope.studentsToEvaluate.length; i++) {
+        if($scope.studentsToEvaluate[i].items >= 0){
+          var studentId = $scope.studentsToEvaluate[i].id;
+          var teacherStudent = { 
+            "name" : studentsToEvaluate.length[i].name,
+            "surname" : studentsToEvaluate.length[i].surname,
+            "classroom" : classroomId,
+            "hashCode" : studentsToEvaluate.length[i].hash,
+            "avatar" : 'https://easyeda.com/assets/static/images/avatar-default.png',
+            "inClass" : true,
+            "items" : $scope.studentsToEvaluate[i].items.push($scope.selectedItem)
+          }
+        }
+        $http.put(Backand.getApiUrl()+'/1/objects/'+'teacherStudents/'+studentId, $scope.studentsToEvaluate[i])
           .success(function(response) {
+            $scope.getStudents();
           })
       }
-      $scope.getStudents();
       }
 
     $scope.createStudent = function(name, surname) {
