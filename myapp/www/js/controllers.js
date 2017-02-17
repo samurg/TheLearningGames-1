@@ -609,28 +609,29 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
         '<ion-list>'+
           '<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'NAME\' | translate }}</span>'+
-            '<input type="text" placeholder="{item.name}">'+
+            '<input type="text" placeholder="{item.name}" ng-model="name">'+
           '</label>'+
           '<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'DESCRIPTION\' | translate }}</span>'+
-            '<input type="text" placeholder="{item.description}">'+
+            '<input type="text" placeholder="{item.description}" ng-model="description">'+
           '</label>'+
           '<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'REQUIREMENTS\' | translate }}</span>'+
-            '<input type="text" placeholder="{item.requirements}">'+
+            '<input type="text" placeholder="{item.requirements}" ng-model="requirements">'+
           '</label>'+
-          '<label class="item item-input list-elements">'+
-            '<span class="input-label">{{ \'SCORE\' | translate }}</span>'+
-            '<input type="text" placeholder="{item.name}">'+
-          '</label>'+
-          '<label class="item item-input list-elements">'+
+          '<span class="input-label">{{ \'SCORE\' | translate }}</span>'+
+          '<div class="item range">'+
+            '<i class="icon ion-thumbsup"></i>'+
+            '<input type="range" name="volume" min="0" max="5" step="1" default="3" ng-model="scoreRange">&nbsp;{{scoreRange}}'+
+          '</div>'+
+          /*'<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'MAX_SCORE\' | translate }}</span>'+
             '<input type="text" placeholder="{item.name}">'+
-          '</label>'+
+          '</label>'+*/
         '</ion-list>'+
       '</form>'+
       '<div class="list-student">'+
-        '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems()">{{ \'ADD_ITEM\' | translate }}</button>'+
+        '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems() ; createItem(name, description, requirements, scoreRange)"">{{ \'ADD_ITEM\' | translate }}</button>'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems()">{{ \'CANCEL\' | translate }}</button>'+
       '</div>'+
     '</ion-content>'+
