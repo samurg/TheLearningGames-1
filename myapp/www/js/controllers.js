@@ -328,19 +328,21 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     *************************************SAVE EVERY MODAL INTO $COOKIES*******************************
   */
 
-  $cookies.put('attendanceModal', '<ion-modal-view hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('attendanceModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
       '<h3 id="attendance-heading3" class="attendance-hdg3">{{classroomName}}</h3>'+
       '<ion-list id="attendance-list7" class="list-elements">'+
         '<ion-checkbox id="attendance-checkbox2" name="checkStudent" class="list-student" ng-repeat="student in students" ng-checked="student.inClass" ng-click="inClass(student)">{{student.name}}</ion-checkbox>'+
       '</ion-list>'+
-      '<button id="attendance-button123" ng-click="editStudentsAttendance(); closeAttendanceModal()" id="attendance-btn123" class="button button-calm  button-block">{{ \'SET_ATTENDANCE_FOR_TODAY\' | translate }}</button>'+
+      '<div class="button-bar action_buttons">'+
+        '<button id="attendance-button123" ng-click="editStudentsAttendance(); closeAttendanceModal()" id="attendance-btn123" class="button button-calm  button-block">{{ \'SET_ATTENDANCE_FOR_TODAY\' | translate }}</button>'+
+      '</div>'+
       '</ion-contentw>'+
       '</ion-modal-view>');
 
-  $cookies.put('newClassModal', '<ion-modal-view hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('newClassModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-      '<h3 style="color:#FFFFFF;text-align:center;">{{ \'NEW_CLASS\' | translate }}</h3>'+
+      '<h3>{{ \'NEW_CLASS\' | translate }}</h3>'+
       '<form id="dataClassForm" class="list">'+
         '<label class="item item-input">'+
           '<span class="input-label">{{ \'CLASS_NAME\' | translate }}</span>'+
@@ -356,9 +358,9 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
               '<option>{classroom.name}</option>'+
             '</select>'+
           '</label>'+
-          '<div class="button-bar">'+
+          '<div class="button-bar action_buttons">'+
             '<button class="button button-calm  button-block" ng-click="closeModalNewClass() ; clearForm()">{{ \'CANCEL\' | translate }}</button>'+
-            '<button class="button button-positive  button-block" ng-disabled="true"></button>'+
+            ''+
             '<button class="button button-calm  button-block" ng-click="createClassroom(name) ; closeModalNewClass() ; clearForm()">{{ \'CREATE\' | translate }}</button>'+
           '</div>'+
         '</form>'+
@@ -366,9 +368,9 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
       '</ion-content>'+
       '</ion-modal-view>');
 
-  $cookies.put('secondaryMenuModal', '<ion-modal-view hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('secondaryMenuModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-      '<h3 style="color:#FFFFFF;text-align:center;">{{ \'ASSIGN_STUDENT_TO_TEAM\' | translate }}</h3>'+
+      '<h3>{{ \'ASSIGN_STUDENT_TO_TEAM\' | translate }}</h3>'+
       '<form class="list">'+
         '<label class="item item-select">'+
           '<span class="input-label">{{ \'SELECT\' | translate }}</span>'+
@@ -376,7 +378,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
               '<option>{{ \'NONE\' | translate }}</option>'+
           '</select>'+
         '</label>'+
-        '<h3 style="color:#FFFFFF;text-align:center;">{{ \'COPY_STUDENT_TO_ANOTHER_CLASS\' | translate }}</h3>'+
+        '<h3>{{ \'COPY_STUDENT_TO_ANOTHER_CLASS\' | translate }}</h3>'+
         '<label class="item item-select">'+
           '<span class="input-label">{{ \'SELECT\' | translate }}</span>'+
           '<select id="selectCopy">'+
@@ -385,24 +387,24 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
           '</select>'+
         '</label>'+
       '</form>'+
-      '<div class="button-bar">'+
+      '<div class="button-bar action_buttons">'+
         '<button class="button button-calm  button-block" ng-click="closeModalSecondary() ; clearFormModal()">{{ \'CANCEL\' | translate }}</button>'+
-        '<button class="button button-positive  button-block" ng-disabled="true"></button>'+
+        ''+
         '<button class="button button-calm  button-block" ng-click="closeModalSecondary() ; clearFormModal()">{{ \'ACCEPT\' | translate }}</button>'+
       '</div>'+
     '</ion-content>'+
       '</ion-modal-view>');
 
-  $cookies.put('studentDialogModal', '<ion-modal-view hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('studentDialogModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-      '<h2 style="color:#FFFFFF;text-align:center;">{{studentName}} {{studentSurname}}</h2>'+
-      '<h3 style="color:#FFFFFF;text-align:center;">{{studentHashCode}}</h3>'+
+      '<h2>{{studentName}} {{studentSurname}}</h2>'+
+      '<h3>{{studentHashCode}}</h3>'+
       '<div class="list-student">'+
-        '<div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">'+
-          '<i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>'+
+        '<div class="avatar_content">'+
+          '<i class="icon ion-image" ></i>'+
         '</div>'+
-        '<button style="font-weight:500;" class="button button-light  button-block button-outline">{{ \'TAKE_PICTURE\' | translate }}</button>'+
-        '<button style="font-weight:500;" class="button button-light  button-block button-outline">{{ \'VIEW_PROFILE\' | translate }}</button>'+
+        '<button  class="button button-light  button-block button-outline">{{ \'TAKE_PICTURE\' | translate }}</button>'+
+        '<button  class="button button-light  button-block button-outline">{{ \'VIEW_PROFILE\' | translate }}</button>'+
         '<button ng-click="closeModalStudentDialog()" class="button button-positive  button-block icon ion-arrow-return-left"></button>'+
       '</div>'+
       '<div class="list-student list-elements">'+
@@ -452,14 +454,14 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
 
   $cookies.put('newStudentModal', '<ion-modal-view hide-nav-bar="true" class="fondo" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-      '<h3 style="color:#FFFFFF;text-align:center;">{{ \'NEW_STUDENT\' | translate }}</h3>'+
+      '<h3>{{ \'NEW_STUDENT\' | translate }}</h3>'+
       '<div class="list-student list-elements">'+
-        '<div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">'+
-          '<i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>'+
+        '<div class="avatar_content">'+
+          '<i class="icon ion-image"></i>'+
         '</div>'+
-        '<button style="font-weight:500;" class="button button-light  button-block button-outline">{{ \'TAKE_PICTURE\' | translate }}</button>'+
+        '<button  class="button button-light  button-block button-outline">{{ \'TAKE_PICTURE\' | translate }}</button>'+
         '<form class="list">'+
-          '<div class="button-bar">'+
+          '<div class="button-bar action_buttons">'+
             '<button class="button button-calm  button-block" ng-click="closeModalNewStudentDialog() ; clearFormStudent()">{{ \'CANCEL\' | translate }}</button>'+
             '<button class="button button-calm  button-block" ng-click="createStudent(name, surname) ; closeModalNewStudentDialog() ; clearFormStudent()">{{ \'GENERATE\' | translate }}</button>'+
           '</div>'+
@@ -481,15 +483,15 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '</ion-content>'+
   '</ion-modal-view>)');
 
-  $cookies.put('teamDialogModal', '<ion-modal-view title="Team Dialog" hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('teamDialogModal', '<ion-modal-view title="Team Dialog" hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-      '<h3 style="color:#FFFFFF;text-align:center;">{team.name}</h3>'+
+      '<h3>{team.name}</h3>'+
       '<div class="list-student">'+
-        '<div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">'+
-          '<i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>'+
+        '<div class="avatar_content">'+
+          '<i class="icon ion-image" ></i>'+
         '</div>'+
-        '<button style="font-weight:500;" class="button button-light  button-block button-outline">{{ \'CHANGE_AVATAR\' | translate }}</button>'+
-        '<button style="font-weight:500;" class="button button-light  button-block button-outline" ng-click="showModalEditTeam()">{{ \'EDIT_TEAM\' | translate }}</button>'+
+        '<button  class="button button-light  button-block button-outline">{{ \'CHANGE_AVATAR\' | translate }}</button>'+
+        '<button  class="button button-light  button-block button-outline" ng-click="showModalEditTeam()">{{ \'EDIT_TEAM\' | translate }}</button>'+
         '<button ng-click="closeModalTeamDialog()" class="button button-positive  button-block icon ion-arrow-return-left"></button>'+
       '</div>'+
       '<div class="list-team">'+
@@ -503,19 +505,19 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '</ion-content>'+
   '</ion-modal-view>');
 
-  $cookies.put('newTeamDialogModal', '<ion-modal-view hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('newTeamDialogModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-      '<h3 style="color:#FFFFFF;text-align:center;">New Team</h3>'+
+      '<h3>New Team</h3>'+
       '<div class="list-student">'+
-        '<div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">'+
-          '<i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>'+
+        '<div class="avatar_content">'+
+          '<i class="icon ion-image" ></i>'+
         '</div>'+
-        '<button style="font-weight:500;" class="button button-light  button-block button-outline">{{ \'UPLOAD_AVATAR\' | translate }}</button>'+
+        '<button  class="button button-light  button-block button-outline">{{ \'UPLOAD_AVATAR\' | translate }}</button>'+
         '<form id="teamNameForm" class="list">'+
           '<label class="item item-input list-elements">'+
             '<input type="text" placeholder="{{ \'NAME\' | translate }}">'+
           '</label>'+
-          '<div class="button-bar">'+
+          '<div class="button-bar action_buttons">'+
             '<button class="button button-calm  button-block" ng-click="closeModalNewTeamDialog() ; clearFormTeam()">{{ \'CANCEL\' | translate }}</button>'+
             '<button class="button button-calm  button-block" ng-click="closeModalNewTeamDialog() ; clearFormTeam()">{{ \'ACCEPT\' | translate }}</button>'+
           '</div>'+
@@ -531,9 +533,9 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '</ion-content>'+
   '</ion-modal-view>');
 
-  $cookies.put('addStudentModal', '<ion-modal-view title="Add Student" hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('addStudentModal', '<ion-modal-view title="Add Student" hide-nav-bar="true" >'+
     '<ion-content padding="true" class="manual-ios-statusbar-padding">'+
-      '<h3 style="color:#FFFFFF;text-align:center;">Add Students</h3>'+
+      '<h3>Add Students</h3>'+
       '<ion-list>'+
         '<ion-checkbox class="list-student-team">{student.name}</ion-checkbox>'+
         '<ion-checkbox class="list-student-team">{student.name}</ion-checkbox>'+
@@ -543,19 +545,19 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '</ion-content>'+
   '</ion-modal-view>');
 
-  $cookies.put('editTeamModal', '<ion-modal-view title="Edit Team" hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('editTeamModal', '<ion-modal-view title="Edit Team" hide-nav-bar="true" >'+
     '<ion-content padding="true" class="manual-ios-statusbar-padding">'+
-      '<h3 style="color:#FFFFFF;text-align:center;">{team.name}</h3>'+
+      '<h3>{team.name}</h3>'+
       '<div class="list-student">'+
-        '<div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">'+
-          '<i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>'+
+        '<div class="avatar_content">'+
+          '<i class="icon ion-image" ></i>'+
         '</div>'+
-        '<button style="font-weight:500;" class="button button-light  button-block button-outline">{{ \'UPLOAD_AVATAR\' | translate }}</button>'+
+        '<button  class="button button-light  button-block button-outline">{{ \'UPLOAD_AVATAR\' | translate }}</button>'+
         '<form id="teamNameForm" class="list">'+
           '<label class="item item-input list-elements">'+
             '<input type="text" placeholder="{{ \'NAME\' | translate }}">'+
           '</label>'+
-          '<div class="button-bar">'+
+          '<div class="button-bar action_buttons">'+
             '<button class="button button-calm  button-block" ng-click="closeModalEditTeam() ; clearFormTeam()">{{ \'CANCEL\' | translate }}</button>'+
             '<button class="button button-calm  button-block" ng-click="closeModalEditTeam() ; clearFormTeam()">{{ \'ACCEPT\' | translate }}</button>'+
           '</div>'+
@@ -571,10 +573,10 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '</ion-content>'+
   '</ion-modal-view>');
 
-  $cookies.put('newMissionModal', '<ion-modal-view title="New Mission" hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('newMissionModal', '<ion-modal-view title="New Mission" hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
       '<form id="missionDataForm" class="list">'+
-        '<h3 style="color:#FFFFFF;text-align:center;">{{ \'NEW_MISSION\' | translate }}</h3>'+
+        '<h3>{{ \'NEW_MISSION\' | translate }}</h3>'+
         '<ion-list>'+
           '<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'NAME\' | translate }} </span>'+
@@ -594,17 +596,17 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
           '</label>'+
         '</ion-list>'+
       '</form>'+
-      '<div class="button-bar">'+
+      '<div class="button-bar action_buttons">'+
         '<button ng-click="closeModalNewMission() ; clearFormNewMission()" class="button button-calm  button-block">{{ \'CANCEL\' | translate }}</button>'+
-        '<button ng-disabled="true" class="button button-positive  button-block"></button>'+
+        ''+
         '<button ng-click="closeModalNewMission() ; clearFormNewMission()" class="button button-calm  button-block">{{ \'ACCEPT\' | translate }}</button>'+
       '</div>'+
     '</ion-content>'+
   '</ion-modal-view>');
 
-  $cookies.put('newItemModal', '<ion-modal-view hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('newItemModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-     '<h3 style="color:#FFFFFF;text-align:center;">{{ \'NEW_ITEM\' | translate }}</h3>'+
+     '<h3>{{ \'NEW_ITEM\' | translate }}</h3>'+
       '<form id="itemDataForm" class="list list-student">'+
         '<ion-list>'+
           '<label class="item item-input list-elements">'+
@@ -637,9 +639,9 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '</ion-content>'+
   '</ion-modal-view>');
 
-  $cookies.put('newAchievementModal', '<ion-modal-view hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('newAchievementModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-      '<h3 style="color:#FFFFFF;text-align:center;">{{ \'NEW_ACHIEVEMENT\' | translate }}</h3>'+
+      '<h3>{{ \'NEW_ACHIEVEMENT\' | translate }}</h3>'+
       '<form id="achievementDataForm" class="list list-student">'+
         '<ion-list>'+
           '<label class="item item-input list-elements">'+
@@ -663,9 +665,9 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '</ion-content>'+
   '</ion-modal-view>');
 
-  $cookies.put('newBadgeModal', '<ion-modal-view hide-nav-bar="true" style="background-color:#387EF5;">'+
+  $cookies.put('newBadgeModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
-      '<h3 style="color:#FFFFFF;text-align:center;">{{ \'NEW_BADGE\' | translate }}</h3>'+
+      '<h3>{{ \'NEW_BADGE\' | translate }}</h3>'+
       '<form id="badgeDataForm" class="list list-student">'+
         '<ion-list>'+
           '<label class="item item-input list-elements">'+
@@ -1265,7 +1267,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
       })
 
     }
-
+    
     $scope.editStudentsAttendance = function() {
       for (var i = 0; i < $scope.students.length; i++) {
         var studentId = $scope.students[i].id;
@@ -1275,7 +1277,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
       }
       $scope.getStudents();
     }
-
+    
     $scope.deleteStudent = function() {
       $http.delete(Backand.getApiUrl()+'/1/objects/'+'teacherStudents/'+$scope.studentId)
         .success(function(response){
