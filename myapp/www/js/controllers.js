@@ -148,10 +148,10 @@ function ($scope, $stateParams, $cookies, $http, Backand, $state) {
 
 
 
-.controller('teacherHomeCtrl', ['$scope', '$stateParams', '$ionicModal', '$http', 'Backand', '$cookies', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('teacherHomeCtrl', ['$scope', '$stateParams', '$ionicModal', '$http', 'Backand', '$cookies', '$state', 'NgTableParams',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
+function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, NgTableParams) {
 
   /*
     *************************************DECLARE FUNCTIONS FOR NG-SHOW********************************
@@ -227,6 +227,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
   }
 
   $scope.classForm = function(){
+    $scope.getItems();
     $scope.loginTypeTeacherHome=false;
     $scope.loginTypeTeacherProfile=false;
     $scope.loginTypeTeacherSettings=false;
@@ -269,6 +270,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
   }
 
   $scope.itemsForm = function() {
+    $scope.getItems();
     $scope.loginTypeTeacherHome=false;
     $scope.loginTypeTeacherProfile=false;
     $scope.loginTypeTeacherSettings=false;
@@ -700,10 +702,10 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     '</select>'+
     '</label>'+
     '<ion-list id="studentToEvaluate" class="list-elements">'+
-      '<ion-checkbox name="checkStudent" ng-checked="false" class="list-student" ng-repeat="student in students" ng-click="addStudentToArray(this.object)">{{student.name}}</ion-checkbox>'+
+      '<ion-checkbox name="checkStudent" ng-checked="false" class="list-student light" ng-repeat="student in students" ng-click="toEvaluate(student)">{{student.name}}</ion-checkbox>'+
     '</ion-list>'+
     '<button class="button button-calm" ng-click="closeModalEvaluateStudent()">{{ \'CANCEL\' | translate }}</button>'+
-    '<button class="button button-calm" ng-click="setScore(); closeModalEvaluateStudent()">{{ \'SET_ITEM\' | translate }}</button>'+
+    '<button class="button button-calm" ng-click="setScore() ; closeModalEvaluateStudent()">{{ \'SET_ITEM\' | translate }}</button>'+
      '</ion-content>'+
     '</ion-modal-view>');
 
@@ -924,6 +926,8 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
   });
 
   $scope.showModalEvaluateStudent = function(){
+      //To clear the array of students to evaluate
+      $scope.studentsToEvaluate = [];
       $scope.studentsEvaluateModal.show();  
   }
     
@@ -996,10 +1000,18 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
 
   $scope.students = [];
   $scope.items = [];
-  //$scope.studentsToEvaluate = [];
+  $scope.studentsToEvaluate = [];
+
+  //Item that the teacher select when he is going to evaluate
+  $scope.selectedItem;
 
   $scope.studentId;
   $scope.studentName;
+
+  //for the table of items
+  var self = this;
+
+  self.tableParams = new NgTableParams({}, {dataset: $scope.items});
 
   /*
     *************************************EVERY FUNCTIONALITY FUNCTION GOES HERE***********************
@@ -1059,32 +1071,6 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     $cookies.put('studentHashCode', hashCode);
   }
 
-  /*Funcion que comprueba si el hashCode esta en el vector.
-    Si esta en el vector lo borra y si no lo añade*/
-  $scope.checkAttendance = function(hashCode){
-    var pos = checked.indexOf(hashCode); //-> posicion(existe) o -1(no existe);
-    if(pos != -1){
-      var vectorHashCode = []; //variable local temporal para guardar los hashCode buenos.
-      for(var i=0;i<checked.length;i++){
-        if(checked[i] != hashCode){//Si no es el hashCode que hay que borrar lo añado
-          vectorHashCode.push(checked[i]);
-        }
-      }
-      checked = []
-      for(var j=0; j<vectorHashCode.length;j++){
-        checked[j] = vectorHashCode[j];
-      }
-    } else {
-      checked.push(hashCode);//Si no exite, lo añado
-    }
-    /*console.log("Numero de elementos en checked: "+ checked.length)
-    for(var i=0;i<checked.length;i++){
-      console.log(i+" - "+checked[i]);
-    }*/
-  }
-    /*Cuando fijo la asistencia hay que comprobar que no la haya fijado ya,
-    la fecha para comparar estará en la tabla resultante n:m estudiantes-items
-    */
 
   $scope.createClassroom = function(name) {
 
@@ -1225,17 +1211,26 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
       }
     }
 
-    /*$scope.setScore = function(){
-      var listStudents = [];
-      listStudents = document.getElementById("studentToEvaluate");
-      var listStudentsChecked = [];
-
-      for (var i=0; i<listStudents.length; i++) {
-        if (listStudents[i].checked) {
-          listStudentsChecked.push(checkboxes[i]);
-        }
+    $scope.toEvaluate = function(student){
+      if ($scope.studentsToEvaluate.indexOf(student) >= 0) {
+        var pos = $scope.studentsToEvaluate.indexOf(student);
+        $scope.studentsToEvaluate.splice(pos, 1);
+      } else {
+        $scope.studentsToEvaluate.push(student);
       }
-    }*/
+    }
+
+    $scope.setScore = function(){
+      var select = document.getElementById("selectItem");
+      var selectedItem = select.options[select.selectedIndex].value;
+      for (var i = 0; i < $scope.students.length; i++) {
+        var studentId = $scope.students[i].id;
+        $http.put(Backand.getApiUrl()+'/1/objects/'+'teacherStudents/'+studentId, $scope.students[i])
+          .success(function(response) {
+          })
+      }
+      $scope.getStudents();
+      }
 
     $scope.createStudent = function(name, surname) {
       var a = CryptoJS.SHA1($scope.studentName + $scope.classroomId + Date.now().toString()).toString();
