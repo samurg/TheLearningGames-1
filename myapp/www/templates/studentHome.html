@@ -39,7 +39,7 @@
         <button id="signUp-button9" ng-disabled="!name || !surname" id="signUp-btn9" class="button button-calm button-large button-block" ng-click="editStudent(name, surname, avatar)">{{ 'SAVE_CHANGES' | translate }}</button>
       </form>
       <ion-list id="studentHome-list33">
-        <ion-item id="studentHome-list-item46" ng-repeat="item in items" class="list-student-dialog">
+        <ion-item id="studentHome-list-item46" class="list-student-dialog"><!-- ng-repeat="item in items" -->
           <i>&nbsp;&nbsp;{{item.name}}</i>
           <span class="item-note">{??}%</span>
           <ion-option-button class="button-assertive">
