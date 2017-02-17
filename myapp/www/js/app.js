@@ -22,6 +22,9 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
   $translateProvider.translations('en', translationsEN);
   $translateProvider.translations('es', translationsES);
   $translateProvider.translations('it', translationsIT);
+  $translateProvider.translations('tr', translationsTR);
+  $translateProvider.translations('de', translationsDE);
+  $translateProvider.translations('hu', translationsHU);
   $translateProvider.preferredLanguage('en');
   $translateProvider.fallbackLanguage('en');
   $translateProvider.useLocalStorage();
