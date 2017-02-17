@@ -125,7 +125,7 @@
       <div class="button-bar action_buttons">
         <button id="class-button31" ng-click="showModalNewStudentDialog()"  class="button button-calm  button-block">{{ 'ADD_STUDENT' | translate }}</button>
         <button id="class-button32" ng-click="showAttendanceModal()"  class="button button-calm  button-block">{{ 'ATTENDANCE' | translate }}</button>
-        <button id="class-button33"  class="button button-calm  button-block">{{ 'EVALUATE' | translate }}</button>
+        <button id="class-button33"  class="button button-calm  button-block" ng-click="showModalEvaluateStudent()">{{ 'EVALUATE' | translate }}</button>
       </div>
 
     </div>
@@ -133,7 +133,7 @@
     <!-- Teams Page -->
 
     <div ng-show="loginTypeTeam">
-      <h3 id="teams-heading5" class="teams-hdg5">{classroom.name}</h3>
+      <h3 id="teams-heading5" class="teams-hdg5">classroomName</h3>
       <ion-list id="teams-list10" class="list-elements">
         <ion-item class="item-thumbnail-left  list-student" id="teams-list-item21" ng-click="showModalTeamDialog()">
           <h2>{{ 'ITEM' | translate }}</h2>
@@ -163,7 +163,7 @@
       <!-- Items Page -->
 
       <div ng-show="loginTypeItems">
-        <h3 id="items-heading12" class="items-hdg12">{classroom.name}</h3>
+        <h3 id="items-heading12" class="items-hdg12">{{classroomName}}</h3>
         <ion-list id="items-list8" class="list-elements align-text-center">
           <ion-item class="light  list-item-header" id="items-list-item11">{{ 'ITEM_NAME' | translate }}</ion-item>
           <ion-item class="light  list-item-header" id="items-list-item12">{{ 'ITEM_DESCRIPTION' | translate }}</ion-item>
@@ -174,7 +174,6 @@
           <ion-item id="items-list-item23" class="list-item" ng-repeat="item in items">{{item.description}}</ion-item>
           <ion-item id="items-list-item24" class="list-item" ng-repeat="item in items">{{item.requirements}}</ion-item>
         </ion-list>
-
         <div class="button-bar action_buttons">
           <button id="items-button67" ng-click="showModalNewItem()" class="button button-calm  button-block">{{ 'ADD_ITEM' | translate }}</button>
         </div>
