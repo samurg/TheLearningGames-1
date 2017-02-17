@@ -605,14 +605,10 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
             '<input type="text" placeholder="{item.description}" ng-model="description">'+
           '</label>'+
           '<label class="item item-input list-elements">'+
-            '<span class="input-label">{{ \'REQUIREMENTS\' | translate }}</span>'+
-            '<input type="text" placeholder="{item.requirements}" ng-model="requirements">'+
-          '</label>'+
-          '<label class="item item-input list-elements">'+
             '<span class="input-label">{{ \'MAX_SCORE\' | translate }}</span>'+
             '<input type="text" placeholder="{item.name}" ng-model="maxPoints">'+
           '</label>'+
-          '<span class="input-label">{{ \'SCORE\' | translate }}</span>'+
+          '<span class="input-label puntuacion">{{ \'SCORE\' | translate }}</span>'+
           '<div class="item range">'+
             '<i class="icon ion-thumbsup"></i>'+
             '<input type="range" name="volume" min="0" max="maxPoints" step="1" default="(maxPoints/2)" ng-model="scoreRange">&nbsp;{{scoreRange}}'+
@@ -620,7 +616,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
         '</ion-list>'+
       '</form>'+
       '<div class="button-bar action_buttons">'+
-        '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems() ; createItem(name, description, requirements, maxPoints, scoreRange)"">{{ \'ADD_ITEM\' | translate }}</button>'+
+        '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems() ; createItem(name, description, maxPoints, scoreRange)"">{{ \'ADD_ITEM\' | translate }}</button>'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems()">{{ \'CANCEL\' | translate }}</button>'+
       '</div>'+
     '</ion-content>'+
@@ -1300,11 +1296,10 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
     }
 
                                             /* FUNCTIONS IN ITEMS */
-    $scope.createItem = function(name, description, requirements, maxPoints, scoreRange){
+    $scope.createItem = function(name, description, maxPoints, scoreRange){
         var item = {
           "name" : name,
           "description" : description,
-          "requirements" : requirements,
           "defaultPoints" : scoreRange,
           "maxPoints" : maxPoints,
           "classroom" : $scope.classroomId
