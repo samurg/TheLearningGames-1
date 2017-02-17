@@ -331,6 +331,7 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
   $cookies.put('attendanceModal', '<ion-modal-view hide-nav-bar="true" >'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
       '<h3 id="attendance-heading3" class="attendance-hdg3">{{classroomName}}</h3>'+
+      '<input class="dateInput" type="text" value="{{date | date:\'dd-MM-yyyy\'}}" readonly />'+
       '<ion-list id="attendance-list7" class="list-elements">'+
         '<ion-checkbox id="attendance-checkbox2" name="checkStudent" class="list-student" ng-repeat="student in students" ng-checked="student.inClass" ng-click="inClass(student)">{{student.name}}</ion-checkbox>'+
       '</ion-list>'+
@@ -720,7 +721,8 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     $scope.classroomName = $cookies.get('classroomName');
     //$scope.getStudentsAttendance();                                         REVISAR AQUI
     $scope.getStudents();
-    $scope.attendanceModal.show();  
+    $scope.attendanceModal.show(); 
+    $scope.date = Date.now(); 
   }
     
   $scope.closeAttendanceModal = function(){
