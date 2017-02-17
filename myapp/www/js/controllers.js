@@ -1387,7 +1387,6 @@ function ($scope, $stateParams, $cookies, $http, Backand, $state) {
   $scope.getClassroomByHashCode = function() {
     $http.get(Backand.getApiUrl()+'/1/query/data/getClassroomByHashCode'+'?parameters={ "hashCode" : \"'+$scope.hashCode+'\"}')
       .success(function (response) {
-        console.log(response[0].id);
         $scope.classroomId = response[0].id;
         $cookies.put('classroomId', response[0].id);
 
