@@ -1270,9 +1270,10 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
         var studentId = $scope.students[i].id;
         $http.put(Backand.getApiUrl()+'/1/objects/'+'teacherStudents/'+studentId, $scope.students[i])
           .success(function(response) {
+            $scope.getStudents();
           })
       }
-      $scope.getStudents();
+      
     }
     
     $scope.deleteStudent = function() {
