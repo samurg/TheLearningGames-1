@@ -622,19 +622,19 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
             '<span class="input-label">{{ \'REQUIREMENTS\' | translate }}</span>'+
             '<input type="text" placeholder="{item.requirements}" ng-model="requirements">'+
           '</label>'+
+          '<label class="item item-input list-elements">'+
+            '<span class="input-label">{{ \'MAX_SCORE\' | translate }}</span>'+
+            '<input type="text" placeholder="{item.name}" ng-model="maxPoints">'+
+          '</label>'+
           '<span class="input-label">{{ \'SCORE\' | translate }}</span>'+
           '<div class="item range">'+
             '<i class="icon ion-thumbsup"></i>'+
-            '<input type="range" name="volume" min="0" max="5" step="1" default="3" ng-model="scoreRange">&nbsp;{{scoreRange}}'+
+            '<input type="range" name="volume" min="0" max="maxPoints" step="1" default="(maxPoints/2)" ng-model="scoreRange">&nbsp;{{scoreRange}}'+
           '</div>'+
-          /*'<label class="item item-input list-elements">'+
-            '<span class="input-label">{{ \'MAX_SCORE\' | translate }}</span>'+
-            '<input type="text" placeholder="{item.name}">'+
-          '</label>'+*/
         '</ion-list>'+
       '</form>'+
       '<div class="list-student">'+
-        '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems() ; createItem(name, description, requirements, scoreRange)"">{{ \'ADD_ITEM\' | translate }}</button>'+
+        '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems() ; createItem(name, description, requirements, maxPoints, scoreRange)"">{{ \'ADD_ITEM\' | translate }}</button>'+
         '<button class="button button-calm  button-block" ng-click="closeModalNewItem() ; clearFormItems()">{{ \'CANCEL\' | translate }}</button>'+
       '</div>'+
     '</ion-content>'+
@@ -1061,33 +1061,6 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     $cookies.put('studentHashCode', hashCode);
   }
 
-  /*Funcion que comprueba si el hashCode esta en el vector.
-    Si esta en el vector lo borra y si no lo añade*/
-  $scope.checkAttendance = function(hashCode){
-    var pos = checked.indexOf(hashCode); //-> posicion(existe) o -1(no existe);
-    if(pos != -1){
-      var vectorHashCode = []; //variable local temporal para guardar los hashCode buenos.
-      for(var i=0;i<checked.length;i++){
-        if(checked[i] != hashCode){//Si no es el hashCode que hay que borrar lo añado
-          vectorHashCode.push(checked[i]);
-        }
-      }
-      checked = []
-      for(var j=0; j<vectorHashCode.length;j++){
-        checked[j] = vectorHashCode[j];
-      }
-    } else {
-      checked.push(hashCode);//Si no exite, lo añado
-    }
-    /*console.log("Numero de elementos en checked: "+ checked.length)
-    for(var i=0;i<checked.length;i++){
-      console.log(i+" - "+checked[i]);
-    }*/
-  }
-    /*Cuando fijo la asistencia hay que comprobar que no la haya fijado ya,
-    la fecha para comparar estará en la tabla resultante n:m estudiantes-items
-    */
-
   $scope.createClassroom = function(name) {
 
     var classroom = {
@@ -1298,12 +1271,13 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state) {
     }
 
                                             /* FUNCTIONS IN ITEMS */
-    $scope.createItem = function(name, description, requirements, scoreRange){
+    $scope.createItem = function(name, description, requirements, maxPoints, scoreRange){
         var item = {
           "name" : name,
           "description" : description,
           "requirements" : requirements,
           "defaultPoints" : scoreRange,
+          "maxPoints" : maxPoints,
           "classroom" : $scope.classroomId
         }
 
