@@ -737,9 +737,10 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
 
   $scope.showAttendanceModal = function(){
     $scope.classroomName = $cookies.get('classroomName');
-    //$scope.getStudentsAttendance();                                         REVISAR AQUI
     $scope.getStudents();
-    $scope.attendanceModal.show(); 
+    if ($scope.students.length > 0) {
+      $scope.attendanceModal.show();
+    }
     $scope.date = Date.now(); 
   }
     
