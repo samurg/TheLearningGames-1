@@ -84,12 +84,7 @@ ion-modal-view h2, h3{ margin: 0 !important; padding: 10px 0; font-size: 1.5em; 
 .list-student:hover{ }
 
 ion-modal-view .list-student, ion-modal-view .list-student:hover{ background: none; }
-
-#attendance-list7 .list-student, #attendance-list7 .list-student:hover,
-.list_tests, .list_tests:hover{ background: white; }
-
-.list_tests, .list_tests:hover{ padding: 0px; margin-top: 20px; margin-bottom: 20px;}
-.list_tests ion-item{ margin: 0px !important;}
+#attendance-list7 .list-student, #attendance-list7 .list-student:hover{ background: white; }
 
 #studentHome-container28{ width: 48% !important; }
 #studentHome-container28 img{ width: 100%; border-radius: 100%; margin-top:3px;}
@@ -97,14 +92,14 @@ ion-modal-view .list-student, ion-modal-view .list-student:hover{ background: no
 #studentHome-form1, #studentHome-form1:hover{ background: none !important; }
 
 /*
- * MISSIONS
- */
+* MISSIONS
+*/
 .list-mission{ width: 48%; margin: 1% !important; float: left;}
 .list-mission-header{ width: 100%; margin: 0; }
 
 /*
- * RULES > ITEMS, MEDALS, ACHIEVEMENTS
- */
+* RULES > ITEMS, MEDALS, ACHIEVEMENTS
+*/
 #page20 .item, #page22 .item, #page24 .item{ width: 30% !important; }
 
 /*

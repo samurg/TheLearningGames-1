@@ -677,9 +677,9 @@ function ($scope, $stateParams, $ionicModal, $http, Backand, $cookies, $state, N
   $cookies.put('studentsEvaluateModal', '<ion-modal-view hide-nav-bar="true" id="page11">'+
     '<ion-content padding="false" class="manual-ios-statusbar-padding">'+
     '<div ng-show="loginTypeSelectItem">'+
-      '<ion-list id="evaluate-list1" class="list-elements">'+
+      '<ion-list id="evaluate-list1" class="item list_tests">'+
         '<ion-item class="list-student-dialog" ng-repeat="item in items" ng-click="setItemSelected(item); selectStudentForm()">'+
-          '{{item.name}}&nbsp;{{item.defaultPoints}}'+
+          '<span class="ion-clipboard"></span> {{item.name}}&nbsp;{{item.defaultPoints}}'+
         '</ion-item>'+
       '</ion-list>'+
     '</div>'+
